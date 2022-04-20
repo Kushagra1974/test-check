@@ -25,7 +25,7 @@ function App() {
   const upload = () => {
     setOptions("GoogleDrive")
     openPicker({
-      clientId: "129702369230-8okruh768mh9chbg94gb16rf04tg9aph.apps.googleusercontent.com",
+      clientId: "129702369230-k8v4kh0qo82btlo7tqgqnv038rlcfq6u.apps.googleusercontent.com",
       developerKey: "AIzaSyANlDhlAqaXVje-wFKGxIYanTr23LP92pk",
       viewId: "DOCS",
       showUploadView: true,
