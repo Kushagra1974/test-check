@@ -12,18 +12,21 @@ import DropboxChooser from 'react-dropbox-chooser';
 
 function App() {
   const [dropboxFile, setDropboxFile] = useState(null)
-  console.log(dropboxFile)
+  const [Text, setText] = useState("")
+  const [From, setFrom] = useState("")
   const [options, setOptions] = useState("GoogleDrive")
   const [openPicker, data, authResponse] = useDrivePicker();
   const text = useRef(null);
   const type = useRef(null);
   useEffect(() => {
     if (data) {
-      data.docs.map(i => text.current.innerText = i.name)
-      if (options === "GoogleDrive") type.current.innerText += " GoogleDrive"
-      if (options === "DropBox") type.current.innerText += " DropBox"
+      data.docs.map(i => setText(i.name))
+      setFrom("Google")
     }
   }, [data])
+
+
+
   const upload = () => {
     setOptions("GoogleDrive")
     openPicker({
@@ -45,17 +48,20 @@ function App() {
         <Button onClick={upload} variant="contained" size="smalls">Upload from google drive</Button>
         <DropboxChooser
           appKey={'vjj8apqlutl56t8'}
-          success={files => setDropboxFile(files)}
+          success={files => {
+            setText(files[0].name)
+            setFrom("DropBox")
+          }}
           cancel={() => this.onCancel()}
           multiselect={false}
         >
           <Button onClick={() => setOptions("DropBox")} variant="contained" size="smalls">Upload from DropBox</Button>
         </DropboxChooser>
         <Typography ref={text} className='display_name' variant="h6" component="div">
-          Selected file name :
+          Selected file name : {Text}
         </Typography>
         <Typography ref={type} className='display_type' variant="h6" component="div">
-          Selected file from :
+          Selected file from : {From}
         </Typography>
       </Stack>
 
