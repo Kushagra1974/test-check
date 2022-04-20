@@ -44,7 +44,6 @@ function App() {
           success={files => this.onSuccess(files)}
           cancel={() => this.onCancel()}
           multiselect={false}
-          extensions={['.mp4']}
         >
           <Button onClick={() => setOptions("DropBox")} variant="contained" size="smalls">Upload from DropBox</Button>
         </DropboxChooser>
