@@ -11,6 +11,8 @@ import useDrivePicker from 'react-google-drive-picker'
 import DropboxChooser from 'react-dropbox-chooser';
 
 function App() {
+  const [dropboxFile, setDropboxFile] = useState(null)
+  console.log(dropboxFile)
   const [options, setOptions] = useState("GoogleDrive")
   const [openPicker, data, authResponse] = useDrivePicker();
   const text = useRef(null);
@@ -35,13 +37,15 @@ function App() {
     })
   }
 
+
+
   return (
     <div className="App">
       <Stack className='stack' spacing={4}>
         <Button onClick={upload} variant="contained" size="smalls">Upload from google drive</Button>
         <DropboxChooser
           appKey={'vjj8apqlutl56t8'}
-          success={files => this.onSuccess(files)}
+          success={files => setDropboxFile(files)}
           cancel={() => this.onCancel()}
           multiselect={false}
         >
