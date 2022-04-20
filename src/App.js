@@ -1,58 +1,61 @@
 import logo from './logo.svg';
 import './App.css';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import useDrivePicker from 'react-google-drive-picker'
+import DropboxChooser from 'react-dropbox-chooser';
 
 function App() {
   const [options, setOptions] = useState("GoogleDrive")
   const [openPicker, data, authResponse] = useDrivePicker();
+  const text = useRef(null);
+  const type = useRef(null);
   useEffect(() => {
     if (data) {
-      data.docs.map(i => console.log(i.name))
+      data.docs.map(i => text.current.innerText = i.name)
+      if (options === "GoogleDrive") type.current.innerText += " GoogleDrive"
+      if (options === "DropBox") type.current.innerText += " DropBox"
     }
   }, [data])
   const upload = () => {
-    if (options == "GoogleDrive") {
-      openPicker({
-        clientId: "129702369230-8okruh768mh9chbg94gb16rf04tg9aph.apps.googleusercontent.com",
-        developerKey: "AIzaSyANlDhlAqaXVje-wFKGxIYanTr23LP92pk",
-        viewId: "DOCS",
-        showUploadView: true,
-        showUploadFolders: true,
-        supportDrives: true,
-        multiselect: false,
-      })
-    }
-    if (options == "DropBox") {
-
-    }
+    setOptions("GoogleDrive")
+    openPicker({
+      clientId: "129702369230-8okruh768mh9chbg94gb16rf04tg9aph.apps.googleusercontent.com",
+      developerKey: "AIzaSyANlDhlAqaXVje-wFKGxIYanTr23LP92pk",
+      viewId: "DOCS",
+      showUploadView: true,
+      showUploadFolders: true,
+      supportDrives: true,
+      multiselect: false,
+    })
   }
 
   return (
     <div className="App">
       <Stack className='stack' spacing={4}>
-        <FormControl>
-          <FormLabel>Upload File From</FormLabel>
-          <RadioGroup
-            defaultValue="GoogleDrive"
-          >
-            <FormControlLabel onClick={() => setOptions("GoogleDrive")} value="GoogleDrive" control={<Radio />} label="GoogleDrive" />
-            <FormControlLabel onClick={() => setOptions("DropBox")} value="DropBox" control={<Radio />} label="DropBox" />
-          </RadioGroup>
-        </FormControl>
-
-        <Button onClick={upload} variant="contained" size="smalls">Upload</Button>
+        <Button onClick={upload} variant="contained" size="smalls">Upload from google drive</Button>
+        <DropboxChooser
+          appKey={'vjj8apqlutl56t8'}
+          success={files => this.onSuccess(files)}
+          cancel={() => this.onCancel()}
+          multiselect={false}
+          extensions={['.mp4']}
+        >
+          <Button onClick={() => setOptions("DropBox")} variant="contained" size="smalls">Upload from DropBox</Button>
+        </DropboxChooser>
+        <Typography ref={text} className='display_name' variant="h6" component="div">
+          Selected file name :
+        </Typography>
+        <Typography ref={type} className='display_type' variant="h6" component="div">
+          Selected file from :
+        </Typography>
       </Stack>
+
     </div>
   );
 }
