@@ -26,7 +26,7 @@ function App() {
     setOptions("GoogleDrive")
     openPicker({
       clientId: "129702369230-k8v4kh0qo82btlo7tqgqnv038rlcfq6u.apps.googleusercontent.com",
-      developerKey: "AIzaSyANlDhlAqaXVje-wFKGxIYanTr23LP92pk",
+      developerKey: "AIzaSyD4oHWtuNXfGFTqzD7HxIPJ7YRG_tz0BAc",
       viewId: "DOCS",
       showUploadView: true,
       showUploadFolders: true,
